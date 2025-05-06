@@ -1,0 +1,9 @@
+*.json filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
+*.shp filter=lfs diff=lfs merge=lfs -text
+*.shp !text !filter !merge !diff
+labs/redistricting/data/congressional_districts_2018/tl_2018_us_cd116.shp filter=lfs diff=lfs merge=lfs -text
+*.json !text !filter !merge !diff
+labs/redistricting/data/leaf_nodes.json filter=lfs diff=lfs merge=lfs -text
+*.csv !text !filter !merge !diff
+labs/redistricting/data/ga_district_df.csv filter=lfs diff=lfs merge=lfs -text
