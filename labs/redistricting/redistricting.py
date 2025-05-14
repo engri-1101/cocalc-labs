@@ -80,7 +80,11 @@ def make_tdm(leaf_nodes, n_blocks=None):
     districts = [d['area'] for d in leaf_nodes]
     if n_blocks is None:
         n_blocks = max([max(d) for d in districts]) + 1
-    block_district_matrix = np.zeros((n_blocks, len(districts)))
+#     block_district_matrix = np.zeros((n_blocks, len(districts)))
+    block_district_matrix = np.memmap('data/tmp_array.npy', dtype=np.int8, mode='w+', shape=(n_blocks, len(districts)))
+    block_district_matrix[:] = 0
+    block_district_matrix.flush()
+    
     for ix, d in enumerate(districts):
         block_district_matrix[d, ix] = 1
     return block_district_matrix

@@ -262,17 +262,22 @@ def plotNetwork(nodes, links, title='Plot of Graph', targets=None, on_map=False)
 def plotShortestPathTree(dfn, dfl, out, targets=None):
     
     in_tree = pd.Series(np.ones(dfl.shape[0]))
+    in_tree_nodes = np.repeat(True, len(dfn))
     
     if targets != None:
         tree_dict = getTree(out, dfl, targets)
         in_tree = dfl.index.map(tree_dict)
+        selected_links = dfl.loc[in_tree == 1, ['start', 'end']]
+        unique_nodes = {int(i) for i in pd.unique(selected_links[['start', 'end']].values.ravel())}
+        in_tree_nodes = dfn.name.map(lambda x: x in unique_nodes)
+        
     
     # get raw data as lists
-    node_ids = dfn.name.values.tolist()
-    start = dfl.start.values.tolist()
-    end = dfl.end.values.tolist()
-    x = dfn.x.values.tolist()
-    y = dfn.y.values.tolist()
+    node_ids = dfn[in_tree_nodes].name.values.tolist()
+    start = dfl[in_tree == 1].start.values.tolist()
+    end = dfl[in_tree == 1].end.values.tolist()
+    x = dfn[in_tree_nodes].x.values.tolist()
+    y = dfn[in_tree_nodes].y.values.tolist()
     
     # get plot boundaries
     min_x, max_x = min(dfn.x)+2000, max(dfn.x)-2000
@@ -293,9 +298,12 @@ def plotShortestPathTree(dfn, dfl, out, targets=None):
     o_map = {1:1, 0:0.6}
     c_map = {1:'orange', 0:'steelblue'}
     w_map = {1:3, 0:0.6}
-    e_oct = in_tree.map(o_map).values.tolist()
-    e_clr = in_tree.map(c_map).values.tolist()
-    e_wth = in_tree.map(w_map).values.tolist()
+#     e_oct = in_tree.map(o_map).values.tolist()
+#     e_clr = in_tree.map(c_map).values.tolist()
+#     e_wth = in_tree.map(w_map).values.tolist()
+    e_oct = np.repeat(o_map[1], len(start))
+    e_clr = np.repeat(c_map[1], len(start))
+    e_wth = np.repeat(w_map[1], len(start))
 
     # define nodes
     graph.node_renderer.data_source.add(node_ids, 'index')

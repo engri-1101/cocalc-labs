@@ -130,3 +130,6 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# lab temp data
+labs/redistricting/data/tmp_array.npy
