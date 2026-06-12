@@ -1,6 +1,8 @@
 .git
 .gitignore
 
+cocalc-labs/.git
+
 cocalc-labs/labs/redistricting
 cocalc-labs/labs/min-cost_flow
 cocalc-labs/labs/bipartite_matching
